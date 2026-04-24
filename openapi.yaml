@@ -1,0 +1,47 @@
+openapi: 3.0.0
+info:
+  title: API Pre-Registros SaludVital
+  version: 1.0.0
+  description: API para envío y consulta de pre-registros de pacientes
+
+paths:
+  /api/pre-registrations:
+    post:
+      summary: Crear pre-registro
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                patient_id:
+                  type: integer
+                full_name:
+                  type: string
+                appointment_date:
+                  type: string
+                  format: date
+                insurance_code:
+                  type: string
+                  enum: [IESS, PRIVADO, NINGUNO]
+      responses:
+        '201':
+          description: Pre-registro creado
+        '400':
+          description: Datos inválidos
+
+  /api/pre-registrations/{patient_id}:
+    get:
+      summary: Obtener pre-registro
+      parameters:
+        - name: patient_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Registro encontrado
+        '404':
+          description: No encontrado
